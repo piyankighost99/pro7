@@ -2,11 +2,13 @@ import requests
 import time
 from bs4 import BeautifulSoup
 
-telegram_bot_token = 'YOUR_TELEGRAM_BOT_TOKEN'
-telegram_bot_username = 'YOUR_TELEGRAM_BOT_USERNAME'
+telegram_bot_token = '6973280612:AAEc48zeUm4VPj5O4U5C2_oYsJcPPB_XEJo'
+chat_id = '5115967874'
 
 # Define your URL
-url = 'https://www.example.com'
+url = 'https://www.ethiobookreview.com/amharic'
+
+send_message_url = f"https://api.telegram.org/bot{telegram_bot_token}/sendMessage"
 
 response = requests.get(url)
 content2 = response.content
@@ -35,10 +37,9 @@ def scrape_data(html_code):
         })
     return books
 
-def send_message_to_telegram(message):
-    send_message_url = f"https://api.telegram.org/bot{telegram_bot_token}/sendMessage"
+def send_message_to_telegram(message, chat_id):
     data = {
-        "chat_id": telegram_bot_username,  # Use bot's username instead of chat_id
+        "chat_id": chat_id,
         "text": message,
         "parse_mode": "HTML"
     }
@@ -52,5 +53,5 @@ for book in books_data:
     caption += f"<b>Category:</b> {book['Category']}\n"
     caption += f"<b>Price:</b> {book['Price']}\n"
     caption += f"<b>Image URL:</b> {book['Image URL']}"
-    send_message_to_telegram(caption)
+    send_message_to_telegram(caption, chat_id)
     time.sleep(60)
